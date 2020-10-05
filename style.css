@@ -43,6 +43,9 @@ body{
   border-bottom: 1px solid #bfbebe;
   outline: none;
   font-weight: 300;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
 }
 
 ::-webkit-input-placeholder{
@@ -58,6 +61,8 @@ body{
   border-color: #1d3557;
   outline: none;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   transition: transform .6s,
               letter-spacing .6s;
 }
@@ -166,7 +171,7 @@ body{
 /* MEDIA */
 @media only screen and (min-width: 992px){
   body{padding: 3% 10%}
-  .search h1 {  font-size: 80px}
+  .search h1 {  font-size: 5em}
   .form {flex-direction: row;}
   .form__button {padding: 1.5% 2%; font-size: 1em}
   .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
@@ -178,7 +183,7 @@ body{
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
   body{padding: 3% 10%}
-  .search h1 {  font-size: 70px}
+  .search h1 {  font-size: 4.375em}
   .form__button {padding: 1.5% 2%; font-size: 1em}
   .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
   ::-webkit-input-placeholder{font-size: 1em;}
@@ -189,8 +194,8 @@ body{
 
 @media only screen and (min-width: 500px) and (max-width: 767px){
   body{padding: 10% 15%}
-  .search h1 {font-size: 60px; margin-bottom: 10%}
-  .form__button {padding: 4% 8%; display: block}
+  .search h1 {font-size: 3.75em; margin-bottom: 10%}
+  .form__button {padding: 4% 8%; display: block; min-height: 40px}
   .form__input {width: 80%; margin-bottom: 5%; font-size: 1.125em;}
   ::-webkit-input-placeholder{font-size: 1.125em;}
   .tab {height: 50vh; width: 80%}
@@ -202,8 +207,8 @@ body{
 
 @media only screen and (max-width: 500px) {
   body{padding: 10% 15%}
-  .search h1 {font-size: 40px; margin-bottom: 10%;}
-  .form__button {padding: 4% 8%; display: block}
+  .search h1 {font-size: 2.5em; margin-bottom: 10%;}
+  .form__button {padding: 4% 8%; display: block; min-height: 40px}
   .form__input {width: 100%; margin-bottom: 5%; font-size: 1.125em;}
   ::-webkit-input-placeholder{font-size: 1.125em;}
   .tab {height: 50vh; width: 100%;}

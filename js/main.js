@@ -107,7 +107,7 @@ function showLocalTime(offset) {
 
 
 function addZero(num) {
-  if (num < 9) return `0${num}`;
+  if (num <= 9) return `0${num}`;
   return num;
 }
 
