@@ -4,7 +4,7 @@ import units from './units';
 import iconsLib from './icons';
 
 const myApi = '55ffb9f0ed7451bf73feeb670fa45c0f',
-      url = 'http://api.openweathermap.org/data/2.5/weather?',
+      url = 'https://api.openweathermap.org/data/2.5/weather?',
       form = document.querySelector('.form');
 
 if (localStorage['city'] !== undefined) {
@@ -37,7 +37,7 @@ function makeWeatherTab(containerSelector, dataObj) {
   container.innerHTML = '';
 
   if (dataObj.cod != '200') {
-    showErrorInfo(containerSelector, `${dataObj.cod}: ${dataObj.message}`);
+    showErrorInfo(containerSelector, `${dataObj.cod}: ${capitalize(dataObj.message)}`);
     return;
   };
 
@@ -88,7 +88,7 @@ function makeWeatherTab(containerSelector, dataObj) {
 function showErrorInfo(containerSelector, errorMsg) {
   const container = document.querySelector(containerSelector);
   container.innerHTML = `
-    <img src='img/rain1.gif' alt=':('>
+    <img src='img/rain.gif' alt=':('>
     ${errorMsg}`;
   container.classList.add('error');
 }
@@ -112,5 +112,5 @@ function addZero(num) {
 }
 
 function capitalize(str) {
-  return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;
+  return `${str.slice(0, 1).toUpperCase()}${str.slice(1).toLowerCase()}`;
 }

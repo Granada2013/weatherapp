@@ -5,8 +5,8 @@
 /* #d90429 - акцент*/
 /* #f1faee - основной тескст */
 
-/* SEARCH section */
 
+/* SEARCH section */
 *{
   padding: 0;
   margin: 0;
@@ -37,7 +37,6 @@ body{
   margin-bottom: 3%;
 }
 
-
 .form__input{
   background: none;
   border: none;
@@ -48,7 +47,7 @@ body{
 
 ::-webkit-input-placeholder{
   font-weight: 300;
-  color: #f1faee;
+  color: rgba(241, 250, 237, 0.8);
 }
 
 .form__button{
@@ -56,6 +55,7 @@ body{
   background: #d90429;
   border-radius: 6px;
   border-width: 1px;
+  border-color: #1d3557;
   outline: none;
   cursor: pointer;
   transition: transform .6s,
@@ -71,7 +71,7 @@ body{
 .tab{
   position: relative;
   animation: fade 1.5s;
-  max-height: 380px;
+  max-height: 370px;
 }
 
 .tab__main{
@@ -79,6 +79,8 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  width: 100%;
   padding: 15%;
   background: #fff;
   color: rgb(17, 17, 17);
@@ -87,8 +89,8 @@ body{
 
 .tab__back{
   position: absolute;
-  left: 2%;
-  right: 2%;
+  left: 3%;
+  right: 3%;
   top: 8px;
   height: 100%;
   background: #555050;
@@ -145,7 +147,7 @@ body{
   font-size: 1.1em;
   align-items: center;
   color: #9f9f9f;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .error img{
@@ -163,26 +165,24 @@ body{
 
 /* MEDIA */
 @media only screen and (min-width: 992px){
-  body{padding: 5% 10%}
+  body{padding: 3% 10%}
   .search h1 {  font-size: 80px}
   .form {flex-direction: row;}
   .form__button {padding: 1.5% 2%; font-size: 1em}
-  .form__input {font-size: 1.4em; padding-left: 2%; margin-right: 4%;}
-  ::-webkit-input-placeholder{font-size: .9em;}
+  .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
+  ::-webkit-input-placeholder{font-size: 1em;}
   .tab {width: 300px; height: 380px; min-width: 260px;}
-  .tab__main {max-width: 100%; height: 100%; width: 100%}
   .tab__temp div {font-size: 5em}
   .tab__temp i {font-size: 3em}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
-  body{padding: 5% 10%}
+  body{padding: 3% 10%}
   .search h1 {  font-size: 70px}
   .form__button {padding: 1.5% 2%; font-size: 1em}
-  .form__input {font-size: 1.4em; padding-left: 2%; margin-right: 4%;}
-  ::-webkit-input-placeholder{font-size: .9em;}
+  .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
+  ::-webkit-input-placeholder{font-size: 1em;}
   .tab {width: 300px; height: 380px; min-width: 260px;}
-  .tab__main {max-width: 100%; height: 100%; width: 100%}
   .tab__temp div {font-size: 5em}
   .tab__temp i {font-size: 3em}
 }
@@ -190,11 +190,10 @@ body{
 @media only screen and (min-width: 500px) and (max-width: 767px){
   body{padding: 10% 15%}
   .search h1 {font-size: 60px; margin-bottom: 10%}
-  .form__button {padding: 4%; display: block}
-  .form__input {width: 80%; margin-bottom: 5%}
-  ::-webkit-input-placeholder{font-size: .8em;}
+  .form__button {padding: 4% 8%; display: block}
+  .form__input {width: 80%; margin-bottom: 5%; font-size: 1.125em;}
+  ::-webkit-input-placeholder{font-size: 1.125em;}
   .tab {height: 50vh; width: 80%}
-  .tab__main {width: 100%; height: 100%;}
   .tab__temp div {font-size: 4em}
   .tab__temp i {font-size: 2.5em}
   .error {font-size: .85em;}
@@ -204,11 +203,10 @@ body{
 @media only screen and (max-width: 500px) {
   body{padding: 10% 15%}
   .search h1 {font-size: 40px; margin-bottom: 10%;}
-  .form__button {padding: 4%; display: block}
-  .form__input {width: 100%; margin-bottom: 5%}
-  ::-webkit-input-placeholder{font-size: .8em;}
+  .form__button {padding: 4% 8%; display: block}
+  .form__input {width: 100%; margin-bottom: 5%; font-size: 1.125em;}
+  ::-webkit-input-placeholder{font-size: 1.125em;}
   .tab {height: 50vh; width: 100%;}
-  .tab__main {width: 100%; height: 100%;}
   .tab__temp div {font-size: 4em}
   .tab__temp i {font-size: 2.5em}
   .error {font-size: .85em;}
