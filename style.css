@@ -6,7 +6,6 @@
 /* #f1faee - основной тескст */
 
 
-/* SEARCH section */
 *{
   padding: 0;
   margin: 0;
@@ -22,6 +21,8 @@ body{
   color: #f1faee;
 }
 
+
+/* SEARCH section */
 .search{
   animation: fade 1.5s;
   margin-bottom: 15px;
@@ -171,7 +172,7 @@ body{
 /* MEDIA */
 @media only screen and (min-width: 992px){
   body{padding: 3% 10%}
-  .search h1 {  font-size: 5em}
+  .search h1 {  font-size: 4.6em}
   .form {flex-direction: row;}
   .form__button {padding: 1.5% 2%; font-size: 1em}
   .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
@@ -181,7 +182,7 @@ body{
   .tab__temp i {font-size: 3em}
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991px){
+@media only screen and (min-width: 768px) and (max-width: 992px){
   body{padding: 3% 10%}
   .search h1 {  font-size: 4.375em}
   .form__button {padding: 1.5% 2%; font-size: 1em}
@@ -192,7 +193,7 @@ body{
   .tab__temp i {font-size: 3em}
 }
 
-@media only screen and (min-width: 500px) and (max-width: 767px){
+@media only screen and (min-width: 500px) and (max-width: 768px){
   body{padding: 10% 15%}
   .search h1 {font-size: 3.75em; margin-bottom: 10%}
   .form__button {padding: 4% 8%; display: block; min-height: 40px}

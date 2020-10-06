@@ -20,7 +20,6 @@ form.addEventListener('submit', (e) => {
 
 
 
-
 //Functions
 function getData(city, apiKey, unitsSys) {
   fetch(url + `q=${city}&units=${units[unitsSys]}&appid=${apiKey}`)
@@ -100,7 +99,7 @@ function showLocalTime(offset) {
                        'May', 'Jun', 'Jul', 'Aug',
                        'Sep', 'Oct', 'Nov', 'Dec'];
   const date = new Date(),
-        hours = (date.getUTCHours() + offset/3600) % 12 || 12,
+        hours = Math.abs(date.getUTCHours() + offset/3600) % 12 || 12,
         am = ((date.getUTCHours() + offset/3600) < 12) ? 'a.m.':'p.m.';
   return `${shortMonths[date.getUTCMonth()]} ${date.getUTCDate()}, ${hours}:${addZero(date.getMinutes())} ${am}`;
 }
