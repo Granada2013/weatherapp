@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&display=swap');
 @import "https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css";
 
-/* #1d3557 - фон */
+/* #111f33 - фон */
 /* #d90429 - акцент*/
 /* #f1faee - основной тескст */
 
@@ -18,14 +18,13 @@ body{
   height: 100vh;
   min-width: 320px;
   background: #111f33;
-  color: #f1faee;
 }
 
 
 /* SEARCH section */
 .search{
+  margin-bottom: 2%;
   animation: fade 1.5s;
-  margin-bottom: 15px;
 }
 
 
@@ -35,18 +34,29 @@ body{
 
 .search h1{
   position: relative;
-  margin-bottom: 3%;
+  margin-bottom: 1.5%;
 }
 
-.form__input{
+.form{
+  display: flex;
+  flex-direction: column;
+}
+
+.input__container{
+  position: relative;
+}
+
+.input__container .form__input{
   background: none;
   border: none;
   border-bottom: 1px solid #bfbebe;
   outline: none;
   font-weight: 300;
+  max-width: 480px;
+  width: 100%;
+  padding-left: 2%;
   -webkit-appearance: none;
   -moz-appearance: none;
-
 }
 
 ::-webkit-input-placeholder{
@@ -54,8 +64,58 @@ body{
   color: rgba(241, 250, 237, 0.8);
 }
 
+.input__container .dropdown{
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  background: #0c1625;
+  box-shadow: 1.5px 1.5px 5px #0b1522;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.dropdown::-webkit-scrollbar{
+  background: none;
+  width: 10px;
+}
+
+.dropdown::-webkit-scrollbar-thumb{
+  height: 50px;
+  background: rgba(241, 250, 237, .3);
+
+}
+
+.dropdown .dropdown__item{
+  color: black;
+  line-height: 3em;;
+  width: 100%;
+  list-style: none;
+  padding-left: 2%;
+  color: #f1faee;
+  cursor: pointer;
+  transition: background-color .2s;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  border-top: 1px solid rgba(225,225,225,.05);
+  animation: fade .9s;
+}
+
+.dropdown .dropdown__item .dropdown__item-active{
+  background: #264985;
+}
+
+.dropdown .dropdown__item:hover{
+  background: #264985;
+}
+
+
 .form__button{
   letter-spacing: 0.1em;
+  padding: 1.5% 3%;
+  min-height: 50px;
+  min-width: 100px;
   background: #d90429;
   border-radius: 6px;
   border-width: 1px;
@@ -64,23 +124,18 @@ body{
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
-  transition: transform .6s,
-              letter-spacing .6s;
 }
 
-.form__button:hover{
-  transform: scaleX(1.01);
-  letter-spacing: .2em;
-}
 
 /*OUTPUT section*/
-.tab{
+.card{
   position: relative;
-  animation: fade 1.5s;
+  animation: fade 1.3s;
   max-height: 370px;
+
 }
 
-.tab__main{
+.card__main{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -93,7 +148,7 @@ body{
   border-radius: 20px;
 }
 
-.tab__back{
+.card__back{
   position: absolute;
   left: 3%;
   right: 3%;
@@ -103,47 +158,47 @@ body{
   border-radius: 20px;
 }
 
-.tab__header{
-  color: #315ba4;
+.card__header{
+  color: #264985;
   font-size: 1.4em;
   font-weight: bold;
 }
 
-.tab__header sup{
+.card__header sup{
   margin-left: 2%;
   font-size: .5em;
   color: #fff;
-  background: #d26b00;
-  padding: 1% 3%;
+  background: #ff4500;
+  padding: 1.5% 4%;
   border-radius: 10px;
 }
 
-.tab__time{
+.card__time{
   color: #b0afac;
   font-size: .8em;
 }
 
-.tab__temp div{
+.card__temp div{
   display: inline;
   color: #111f33;
   font-weight: bold;
   margin-right: 3px;
 }
 
-.tab__temp div sup, .tab__temp i{
+.card__temp div sup, .card__temp i{
   color: #111f33;
 }
 
-.tab__temp div sup{
+.card__temp div sup{
   font-size: .5em;
 }
 
-.tab__temp p{
+.card__temp p{
   color: #b0afac;
 }
 
-.tab__descr{
-  color: #315ba4;
+.card__descr{
+  color: #264985;
   text-transform: uppercase;
 }
 
@@ -162,8 +217,6 @@ body{
   height: 100px;
 }
 
-
-
 @keyframes fade {
   from {opacity: 0}
   to {opacity: 1}
@@ -171,50 +224,50 @@ body{
 
 /* MEDIA */
 @media only screen and (min-width: 992px){
-  body{padding: 3% 10%}
+  body{padding: 2% 10%}
   .search h1 {  font-size: 4.6em}
-  .form {flex-direction: row;}
-  .form__button {padding: 1.5% 2%; font-size: 1em}
-  .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
-  ::-webkit-input-placeholder{font-size: 1em;}
-  .tab {width: 300px; height: 380px; min-width: 260px;}
-  .tab__temp div {font-size: 5em}
-  .tab__temp i {font-size: 3em}
+  .form {flex-direction: row; align-items: flex-end;justify-content: flex-start}
+  .input__container{margin-right: 2%; width: 45%}
+  .form__input {font-size: 1.2em}
+  .card {height: 380px; min-width: 260px; max-width: 300px;}
+  .card__temp div {font-size: 5em}
+  .card__temp i {font-size: 3em}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px){
   body{padding: 3% 10%}
-  .search h1 {  font-size: 4.375em}
-  .form__button {padding: 1.5% 2%; font-size: 1em}
-  .form__input {font-size: 1.35em; padding-left: 2%; margin-right: 4%;}
-  ::-webkit-input-placeholder{font-size: 1em;}
-  .tab {width: 300px; height: 380px; min-width: 260px;}
-  .tab__temp div {font-size: 5em}
-  .tab__temp i {font-size: 3em}
+  .search h1 {font-size: 4.375em}
+  .form {flex-direction: row; align-items: flex-end; justify-content: flex-start}
+  .input__container{margin-right: 4%; width: 60%}
+  .form__input {font-size: 1.2em}
+  .card {height: 380px; min-width: 260px; max-width: 300px;}
+  .card__temp div {font-size: 5em}
+  .card__temp i {font-size: 3em}
 }
 
-@media only screen and (min-width: 500px) and (max-width: 768px){
+@media only screen and (min-width: 501px) and (max-width: 768px){
   body{padding: 10% 15%}
   .search h1 {font-size: 3.75em; margin-bottom: 10%}
-  .form__button {padding: 4% 8%; display: block; min-height: 40px}
-  .form__input {width: 80%; margin-bottom: 5%; font-size: 1.125em;}
-  ::-webkit-input-placeholder{font-size: 1.125em;}
-  .tab {height: 50vh; width: 80%}
-  .tab__temp div {font-size: 4em}
-  .tab__temp i {font-size: 2.5em}
+  .form {align-items: flex-start}
+  .input__container{margin-bottom: 4%; width: 80%; max-width: 300px}
+  .form__input {font-size: 1.125em;}
+  .card {height: 50vh; width: 80%; max-width: 300px;}
+  .card__temp div {font-size: 4em}
+  .card__temp i {font-size: 2.5em}
   .error {font-size: .85em;}
   .error img {height: 75px}
 }
 
 @media only screen and (max-width: 500px) {
   body{padding: 10% 15%}
+  .search {margin-bottom: 4%}
   .search h1 {font-size: 2.5em; margin-bottom: 10%;}
-  .form__button {padding: 4% 8%; display: block; min-height: 40px}
-  .form__input {width: 100%; margin-bottom: 5%; font-size: 1.125em;}
-  ::-webkit-input-placeholder{font-size: 1.125em;}
-  .tab {height: 50vh; width: 100%;}
-  .tab__temp div {font-size: 4em}
-  .tab__temp i {font-size: 2.5em}
+  .form {align-items: flex-start}
+  .input__container{margin-bottom: 5%; width: 100%}
+  .form__input {font-size: 1.125em;}
+  .card {height: 50vh; width: 100%;}
+  .card__temp div {font-size: 4em}
+  .card__temp i {font-size: 2.5em}
   .error {font-size: .85em;}
   .error img {height: 75px}
 }
