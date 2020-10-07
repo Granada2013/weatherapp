@@ -130,9 +130,8 @@ body{
 /*OUTPUT section*/
 .card{
   position: relative;
-  animation: fade 1.3s;
   max-height: 370px;
-
+  animation: fade 1.5s;
 }
 
 .card__main{
@@ -189,6 +188,7 @@ body{
   color: #111f33;
 }
 
+
 .card__temp div sup{
   font-size: .5em;
 }
@@ -208,7 +208,7 @@ body{
   font-size: 1.1em;
   align-items: center;
   color: #9f9f9f;
-  /* text-transform: uppercase; */
+  animation: fade 1.3s
 }
 
 .error img{
@@ -218,7 +218,7 @@ body{
 }
 
 @keyframes fade {
-  from {opacity: 0}
+  from {opacity: .1}
   to {opacity: 1}
 }
 

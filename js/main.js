@@ -5,6 +5,7 @@ import iconsLib from './weather_icons';
 
 const myApi = '55ffb9f0ed7451bf73feeb670fa45c0f';
 
+
 fetch('current.city.list.json')
   .then(data => data.json())
   .then(cities => {
@@ -13,34 +14,81 @@ fetch('current.city.list.json')
       getData(localStorage.city, localStorage.country, myApi, 'metric');
     };
 
-    const form = document.querySelector('.form');
+    const form = document.querySelector('.form'),
+          output = document.querySelector('.output'),
+          dropdown = document.querySelector('.dropdown');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-
+      if (dropdown.dataset.open) return;
       const cityName = form.city.value;
       makeDropdownMenu('.dropdown', form, cityName, cities);
-      pickDropdownOption('.dropdown', form);
+    });
 
-      e.target.addEventListener('input', () => {
+    dropdown.addEventListener('click', e => {
+      getData(e.target.dataset.city,
+              e.target.dataset.country, myApi, 'metric');
+      closeDropdownMenu('.dropdown');
+      form.reset();
+    });
+
+    form.addEventListener('input', () => {
+      if (dropdown.dataset.open == 'true') {
         closeDropdownMenu('.dropdown');
+      }
 
-        const output = document.querySelector('.output');
-        if (!output.classList.contains('error')) return;
-        output.innerHTML = '';
-      });
+      if (!output.classList.contains('error')) return;
+      output.innerHTML = '';
+      output.classList.remove('error');
+    });
 
-      document.addEventListener('keydown', event => {
-        if (event.code != 'Escape') return;
+    document.addEventListener('keydown', event => {
+      if (event.code == 'Escape' && dropdown.dataset.open == 'true') {
         closeDropdownMenu('.dropdown');
         form.reset();
-      })
-    });
+      };
+    })
   })
   .catch((err) => {
     showErrorInfo('.output',
                   'The site is currently unavaliable. Please try again later.')
   })
+
+// const form = document.querySelector('.form'),
+//       output = document.querySelector('.output'),
+//       dropdown = document.querySelector('.dropdown');
+//
+// form.addEventListener('submit', e => {
+//   e.preventDefault();
+//   if (dropdown.dataset.open) return;
+//   const cityName = form.city.value;
+//   makeDropdownMenu('.dropdown', form, cityName, cities);
+// });
+//
+// dropdown.addEventListener('click', e => {
+//   getData(e.target.dataset.city,
+//           e.target.dataset.country, myApi, 'metric');
+//   closeDropdownMenu('.dropdown');
+//   form.reset();
+// });
+//
+// form.addEventListener('input', () => {
+//   if (dropdown.dataset.open == 'true') {
+//     closeDropdownMenu('.dropdown');
+//   }
+//
+//   if (!output.classList.contains('error')) return;
+//   output.innerHTML = '';
+//   output.classList.remove('error');
+// });
+//
+// document.addEventListener('keydown', event => {
+//   if (event.code == 'Escape' && dropdown.dataset.open == 'true') {
+//     closeDropdownMenu('.dropdown');
+//     form.reset();
+//   };
+// })
+
 
 
 
@@ -49,10 +97,9 @@ fetch('current.city.list.json')
 function makeDropdownMenu(dropdownSelector, parentFormElement, city, citiesLib) {
   const dropdown = document.querySelector(dropdownSelector),
         reg = new RegExp('\\b' + city + '\\b', 'i');
-  if (dropdown.dataset.open != undefined) return;
 
   dropdown.dataset.open = true;
-  dropdown.style.overflowY = 'scroll';
+  dropdown.style.overflowY = 'hidden';
 
   citiesLib.forEach(record => {
     if (reg.test(record.name)) {
@@ -72,21 +119,11 @@ function makeDropdownMenu(dropdownSelector, parentFormElement, city, citiesLib) 
     return;
   };
 
-  if (dropdown.children.length <= 5) {
-    dropdown.style.overflowY = 'hidden';
+  if (dropdown.children.length > 5) {
+    dropdown.style.overflowY = 'scroll';
   }
 }
 
-//Pick city from dropdown menu and fetch relevant data from Openweathermap
-function pickDropdownOption(dropdownSelector, parentFormElement) {
-  const dropdown = document.querySelector(dropdownSelector);
-  dropdown.addEventListener('click', e => {
-    getData(e.target.dataset.city,
-            e.target.dataset.country, myApi, 'metric');
-    closeDropdownMenu(dropdownSelector);
-    parentFormElement.reset();
-  });
-};
 
 //Close dropdown menu
 function closeDropdownMenu(dropdownSelector) {
@@ -103,7 +140,9 @@ function getData(city, country, apiKey, unitsSys) {
       .then(data => {
         makeWeatherCard('.output', data);
       })
-      .catch((error) => {showErrorInfo('.output', 'Oops! Something went wrong :(')})
+      .catch((error) => {
+        console.log(error);
+        showErrorInfo('.output', 'Oops! Something went wrong :(')})
 }
 
 //Construct and display weather card using data object fetched from Openweathermap
@@ -111,12 +150,13 @@ function makeWeatherCard(containerSelector, dataObj) {
   const container =  document.querySelector(containerSelector);
   container.innerHTML = '';
 
+  container.classList.remove('error');
+
   if (dataObj.cod != '200') {
     showErrorInfo(containerSelector, `${dataObj.cod}: ${capitalize(dataObj.message)}`);
     return;
   };
 
-  container.classList.remove('error');
   localStorage.setItem('city', dataObj.name);
   localStorage.setItem('country', dataObj.sys.country);
   const weatherCard = document.createElement('div'),
