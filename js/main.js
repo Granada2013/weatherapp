@@ -3,16 +3,17 @@
 import units from './units';
 import iconsLib from './weather_icons';
 
+const myApi = '55ffb9f0ed7451bf73feeb670fa45c0f';
+
 fetch('current.city.list.json')
   .then(data => data.json())
   .then(cities => {
 
-    const myApi = '55ffb9f0ed7451bf73feeb670fa45c0f',
-          form = document.querySelector('.form');
-
     if (localStorage['city'] !== undefined) {
       getData(localStorage.city, localStorage.country, myApi, 'metric');
     };
+
+    const form = document.querySelector('.form');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
