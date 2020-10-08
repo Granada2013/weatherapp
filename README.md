@@ -2,6 +2,7 @@
 ### Check the current weaher in any point of the world
 
 Avaliable in any browser supporting ES6 (ECMAScript2015) specification.
+Only english names avaliable.
 My first experience with responsive design.
 Check it on https://spiweatherapp.000webhostapp.com/
 
