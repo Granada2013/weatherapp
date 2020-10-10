@@ -5,43 +5,51 @@ import iconsLib from './weather_icons';
 
 const myApi = '55ffb9f0ed7451bf73feeb670fa45c0f';
 
-
 fetch('current.city.list.json')
   .then(data => data.json())
   .then(cities => {
-
-    if (localStorage['city'] !== undefined) {
-      getData(localStorage.city, localStorage.country, myApi, 'metric');
-    };
-
     const form = document.querySelector('.form'),
           output = document.querySelector('.output'),
           dropdown = document.querySelector('.dropdown');
 
+    //Dislpay latest search weather info
+    if (localStorage['city'] !== undefined) {
+      getData({city: localStorage.city,
+              country: localStorage.country,
+              apiKey: myApi,
+              unitsSys: 'metric'})
+    };
+
+    //Show dropdown menu upon form submission
     form.addEventListener('submit', e => {
       e.preventDefault();
       if (dropdown.dataset.open) return;
       const cityName = form.city.value;
-      makeDropdownMenu('.dropdown', form, cityName, cities);
+      makeDropdownMenu({dropdownSelector: '.dropdown',
+                        parentFormElement: form,
+                        city: cityName,
+                        citiesLib: cities});
     });
 
+    //Pick dropdown menu item and show relevant weather card
     dropdown.addEventListener('click', e => {
-      getData(e.target.dataset.city,
-              e.target.dataset.country, myApi, 'metric');
+      getData({city: e.target.dataset.city,
+              country: e.target.dataset.country,
+              apiKey: myApi,
+              unitsSys: 'metric'});
       closeDropdownMenu('.dropdown');
       form.reset();
     });
 
+    //Close dropdown menu upon changing form input
     form.addEventListener('input', () => {
-      if (dropdown.dataset.open == 'true') {
-        closeDropdownMenu('.dropdown');
-      }
-
+      if (dropdown.dataset.open == 'true') closeDropdownMenu('.dropdown');
       if (!output.classList.contains('error')) return;
       output.innerHTML = '';
       output.classList.remove('error');
     });
 
+    //Close dropdown meun by clicking 'Esc'
     document.addEventListener('keydown', event => {
       if (event.code == 'Escape' && dropdown.dataset.open == 'true') {
         closeDropdownMenu('.dropdown');
@@ -50,51 +58,16 @@ fetch('current.city.list.json')
     })
   })
   .catch((err) => {
-    showErrorInfo('.output',
-                  'The site is currently unavaliable. Please try again later.')
+    showErrorInfo({containerSelector: '.output',
+                  errorMsg: 'The site is currently unavaliable. Please try again later.'})
   })
-
-// const form = document.querySelector('.form'),
-//       output = document.querySelector('.output'),
-//       dropdown = document.querySelector('.dropdown');
-//
-// form.addEventListener('submit', e => {
-//   e.preventDefault();
-//   if (dropdown.dataset.open) return;
-//   const cityName = form.city.value;
-//   makeDropdownMenu('.dropdown', form, cityName, cities);
-// });
-//
-// dropdown.addEventListener('click', e => {
-//   getData(e.target.dataset.city,
-//           e.target.dataset.country, myApi, 'metric');
-//   closeDropdownMenu('.dropdown');
-//   form.reset();
-// });
-//
-// form.addEventListener('input', () => {
-//   if (dropdown.dataset.open == 'true') {
-//     closeDropdownMenu('.dropdown');
-//   }
-//
-//   if (!output.classList.contains('error')) return;
-//   output.innerHTML = '';
-//   output.classList.remove('error');
-// });
-//
-// document.addEventListener('keydown', event => {
-//   if (event.code == 'Escape' && dropdown.dataset.open == 'true') {
-//     closeDropdownMenu('.dropdown');
-//     form.reset();
-//   };
-// })
-
-
 
 
 //FUNCTIONS
 //Construct and show dropdown city name menu
-function makeDropdownMenu(dropdownSelector, parentFormElement, city, citiesLib) {
+function makeDropdownMenu({dropdownSelector,
+                          parentFormElement,
+                          city, citiesLib}) {
   const dropdown = document.querySelector(dropdownSelector),
         reg = new RegExp('\\b' + city + '\\b', 'i');
 
@@ -113,7 +86,8 @@ function makeDropdownMenu(dropdownSelector, parentFormElement, city, citiesLib) 
   });
 
   if (dropdown.children.length == 0) {
-    showErrorInfo('.output', 'City not found');
+    showErrorInfo({containerSelector: '.output',
+                   errorMsg: 'City not found'});
     closeDropdownMenu(dropdownSelector);
     parentFormElement.reset();
     return;
@@ -121,8 +95,8 @@ function makeDropdownMenu(dropdownSelector, parentFormElement, city, citiesLib) 
 
   if (dropdown.children.length > 5) {
     dropdown.style.overflowY = 'scroll';
-  }
-}
+  };
+};
 
 
 //Close dropdown menu
@@ -133,32 +107,41 @@ function closeDropdownMenu(dropdownSelector) {
 }
 
 //Get current weather data from Openweathermap
-function getData(city, country, apiKey, unitsSys) {
+function getData({city, country, apiKey, unitsSys}) {
   const url = 'https://api.openweathermap.org/data/2.5/weather?';
   fetch(url + `q=${city},${country}&units=${units[unitsSys]}&appid=${apiKey}`)
       .then(response => response.json())
       .then(data => {
-        makeWeatherCard('.output', data);
+        console.log(data);
+        makeWeatherCard({containerSelector: '.output',
+                         dataObj: data});
       })
       .catch((error) => {
         console.log(error);
-        showErrorInfo('.output', 'Oops! Something went wrong :(')})
+        showErrorInfo({containerSelector: '.output',
+                       errorMsg: 'Oops! Something went wrong :('});
+      });
 }
 
-//Construct and display weather card using data object fetched from Openweathermap
-function makeWeatherCard(containerSelector, dataObj) {
-  const container =  document.querySelector(containerSelector);
-  container.innerHTML = '';
 
+//Construct and display weather card using data object fetched from Openweathermap
+function makeWeatherCard({containerSelector, dataObj}) {
+  const container =  document.querySelector(containerSelector),
+        {cod, message, name, main,
+         sys: {country}, timezone,
+         weather: [{description, icon}]} = dataObj;
+
+  container.innerHTML = '';
   container.classList.remove('error');
 
-  if (dataObj.cod != '200') {
-    showErrorInfo(containerSelector, `${dataObj.cod}: ${capitalize(dataObj.message)}`);
+  if (cod != '200') {
+    const errorMsg = `${cod}: ${capitalize(message)}`;
+    showErrorInfo({containerSelector, errorMsg});
     return;
   };
 
-  localStorage.setItem('city', dataObj.name);
-  localStorage.setItem('country', dataObj.sys.country);
+  localStorage.setItem('city', name);
+  localStorage.setItem('country', country);
   const weatherCard = document.createElement('div'),
         cardMain =  document.createElement('div'),
         cardBack = document.createElement('div');
@@ -170,7 +153,7 @@ function makeWeatherCard(containerSelector, dataObj) {
   makeCardContent();
   container.append(weatherCard);
 
-  //Construct and display weathercard content
+  //Parse Openweathermap data object and construct weathercard content
   function makeCardContent() {
     const header = document.createElement('div'),
           time = document.createElement('div'),
@@ -179,35 +162,34 @@ function makeWeatherCard(containerSelector, dataObj) {
 
     header.classList.add('card__header');
     header.innerHTML = `
-      ${dataObj.name}<sup>${dataObj.sys.country}</sup>
+      ${name}<sup>${country}</sup>
     `;
 
     time.classList.add('card__time');
-    time.textContent = showLocalTime(dataObj.timezone);
+    time.textContent = showLocalTime(timezone);
 
     temp.classList.add('card__temp');
     temp.innerHTML = `
-      <div>${Math.ceil(dataObj.main.temp)}<sup>°C</sup></div>
-      <i class="wi ${iconsLib[dataObj.weather[0].icon]}"></i>
-      <p>Feels like ${Math.ceil(dataObj.main.feels_like)}°C</p>
+      <div>${Math.ceil(main.temp)}<sup>°C</sup></div>
+      <i class="wi ${iconsLib[icon]}"></i>
+      <p>Feels like ${Math.ceil(main.feels_like)}°C</p>
     `;
 
     descr.classList.add('card__descr');
-    descr.textContent = `${dataObj.weather[0].description}`;
+    descr.textContent = `${description}`;
 
     cardMain.append(header, time, temp, descr);
   }
 }
 
 // Construct and display error message
-function showErrorInfo(containerSelector, errorMsg) {
+function showErrorInfo({containerSelector, errorMsg}) {
   const container = document.querySelector(containerSelector);
   container.innerHTML = `
     <img src='img/rain.gif' alt=':('>
     ${errorMsg}`;
   container.classList.add('error');
 }
-
 
 //Calculate and format local time and date based on time offset
 function showLocalTime(offset) {
@@ -222,11 +204,13 @@ function showLocalTime(offset) {
           ${hours}:${addZero(date.getMinutes())} ${am}`;
 }
 
+//Format number from <n> to <0n> if n is less then 10
 function addZero(num) {
   if (num <= 9) return `0${num}`;
   return num;
 }
 
+//Format string by capitalizing its first letter
 function capitalize(str) {
   return `${str.slice(0, 1).toUpperCase()}${str.slice(1).toLowerCase()}`;
 }
